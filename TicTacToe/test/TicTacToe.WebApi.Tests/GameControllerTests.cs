@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
@@ -13,7 +14,10 @@ namespace TicTacToe.WebApi.Tests
         [Test]
         public async Task NewGame_ReturnsEmptyBoard()
         {
-            var webHostBuilder = new WebHostBuilder().UseStartup<Startup>();
+            var webHostBuilder = new WebHostBuilder()
+                .ConfigureServices(services => services.AddAutofac())
+                .UseStartup<Startup>();
+
             using (var testServer = new TestServer(webHostBuilder))
             {
                 var client = testServer.CreateClient();
