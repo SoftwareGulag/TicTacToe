@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TicTacToe.WebApi.Container;
 
 namespace TicTacToe.WebApi
 {
@@ -34,21 +35,5 @@ namespace TicTacToe.WebApi
         {
             services.AddMvc();
         }
-    }
-
-    public class BaseModule : Module
-    {
-        protected override void Load(ContainerBuilder builder)
-        {
-            builder.RegisterType<MyClass>().As<IMyClass>();
-        }
-    }
-
-    public class MyClass : IMyClass
-    {
-    }
-
-    public interface IMyClass
-    {
     }
 }
