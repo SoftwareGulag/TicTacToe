@@ -20,7 +20,7 @@ namespace TicTacToe.WebApi.Models
             };
         }
 
-        public string Serialize()
+        public string Print()
         {
             var mappedCells = _cells.Select(MapToString);
 
@@ -29,7 +29,7 @@ namespace TicTacToe.WebApi.Models
 
         private string MapToString(CellState cellState) => _cellStateMap[cellState];
 
-        public void MakeMove(uint i)
+        public void MakeMove(int i)
         {
             if (_cells[i] != CellState.Empty)
             {

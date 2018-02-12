@@ -5,19 +5,20 @@ using TicTacToe.WebApi.Requests;
 
 namespace TicTacToe.WebApi.Handlers
 {
-    public class CreateBoardHandler : RequestHandler<CreateBoardRequest, Board>
+    public class MakeMoveHandler : RequestHandler<MakeMoveRequest, Board>
     {
         private readonly IBoardRepository _boardRepository;
 
-        public CreateBoardHandler(IBoardRepository boardRepository)
+        public MakeMoveHandler(IBoardRepository boardRepository)
         {
             _boardRepository = boardRepository;
         }
 
-        protected override Board HandleCore(CreateBoardRequest request)
+        protected override Board HandleCore(MakeMoveRequest message)
         {
-            var board = new Board();
-            _boardRepository.Set(board);
+            var board = _boardRepository.Get();
+            board.MakeMove(message.CellId);
+
             return board;
         }
     }

@@ -5,13 +5,13 @@ using TicTacToe.WebApi.Models;
 namespace TicTacToe.WebApi.Tests
 {
     [TestFixture]
-    public class BoardTets
+    public class BoardTest
     {
         [Test]
         public void Serialize_GivenEmptyBoard_ReturnsArrayOfDash()
         {
             var board = new Board();
-            Assert.That(board.Serialize(), Is.EqualTo("{[_,_,_,_,_,_,_,_,_]}"));
+            Assert.That(board.Print(), Is.EqualTo("{[_,_,_,_,_,_,_,_,_]}"));
         }
 
         [Test]
@@ -19,7 +19,7 @@ namespace TicTacToe.WebApi.Tests
         {
             var board = new Board();
             board.MakeMove(0);
-            Assert.That(board.Serialize(), Is.EqualTo("{[o,_,_,_,_,_,_,_,_]}"));
+            Assert.That(board.Print(), Is.EqualTo("{[o,_,_,_,_,_,_,_,_]}"));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace TicTacToe.WebApi.Tests
         {
             var board = new Board();
             board.MakeMove(1);
-            Assert.That(board.Serialize(), Is.EqualTo("{[_,o,_,_,_,_,_,_,_]}"));
+            Assert.That(board.Print(), Is.EqualTo("{[_,o,_,_,_,_,_,_,_]}"));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace TicTacToe.WebApi.Tests
             var board = new Board();
             board.MakeMove(1);
             board.MakeMove(0);
-            Assert.That(board.Serialize(), Is.EqualTo("{[x,o,_,_,_,_,_,_,_]}"));
+            Assert.That(board.Print(), Is.EqualTo("{[x,o,_,_,_,_,_,_,_]}"));
         }
     }
 }
