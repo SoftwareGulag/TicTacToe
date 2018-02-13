@@ -1,11 +1,10 @@
 ﻿using MediatR;
-using TicTacToe.WebApi.Models;
 using TicTacToe.WebApi.Repositories.Abstract;
 using TicTacToe.WebApi.Requests;
 
 namespace TicTacToe.WebApi.Handlers
 {
-    public class MakeMoveHandler : RequestHandler<MakeMoveRequest, Board>
+    public class MakeMoveHandler : RequestHandler<MakeMoveRequest, string>
     {
         private readonly IBoardRepository _boardRepository;
 
@@ -14,12 +13,12 @@ namespace TicTacToe.WebApi.Handlers
             _boardRepository = boardRepository;
         }
 
-        protected override Board HandleCore(MakeMoveRequest message)
+        protected override string HandleCore(MakeMoveRequest message)
         {
             var board = _boardRepository.Get();
             board.MakeMove(message.CellId);
 
-            return board;
+            return board.Print();
         }
     }
 }

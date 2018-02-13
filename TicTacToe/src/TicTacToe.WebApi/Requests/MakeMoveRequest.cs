@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using TicTacToe.WebApi.Models;
 
 namespace TicTacToe.WebApi.Requests
 {
-    public class MakeMoveRequest : IRequest<Board>
+    public class MakeMoveRequest : IRequest<string>
     {
         public int CellId { get; }
 

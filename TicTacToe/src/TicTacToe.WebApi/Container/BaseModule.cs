@@ -2,7 +2,6 @@
 using Autofac;
 using MediatR;
 using TicTacToe.WebApi.Handlers;
-using TicTacToe.WebApi.Models;
 using TicTacToe.WebApi.Repositories;
 using TicTacToe.WebApi.Repositories.Abstract;
 using TicTacToe.WebApi.Requests;
@@ -34,8 +33,8 @@ namespace TicTacToe.WebApi.Container
                 })
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<CreateBoardHandler>().As<IRequestHandler<CreateBoardRequest, Board>>();
-            builder.RegisterType<MakeMoveHandler>().As<IRequestHandler<MakeMoveRequest, Board>>();
+            builder.RegisterType<CreateBoardHandler>().As<IRequestHandler<CreateBoardRequest, string>>();
+            builder.RegisterType<MakeMoveHandler>().As<IRequestHandler<MakeMoveRequest, string>>();
 
             builder.RegisterType<BoardRepository>().As<IBoardRepository>().SingleInstance();
         }

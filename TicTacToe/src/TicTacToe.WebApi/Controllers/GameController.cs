@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TicTacToe.WebApi.Models;
 using TicTacToe.WebApi.Requests;
 
 namespace TicTacToe.WebApi.Controllers
@@ -19,14 +18,14 @@ namespace TicTacToe.WebApi.Controllers
         public async Task<IActionResult> CreateNewGame()
         {
             var board = await _mediator.Send(new CreateBoardRequest());
-            return Ok(board.Print());
+            return Ok(board);
         }
 
         [HttpPost, Route("game/move")]
         public async Task<IActionResult> MakeMove([FromBody] int cellId)
         {
             var board = await _mediator.Send(new MakeMoveRequest(cellId));
-            return Ok(board.Print());
+            return Ok(board);
         }
     }
 }

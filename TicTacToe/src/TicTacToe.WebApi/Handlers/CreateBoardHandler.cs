@@ -5,7 +5,7 @@ using TicTacToe.WebApi.Requests;
 
 namespace TicTacToe.WebApi.Handlers
 {
-    public class CreateBoardHandler : RequestHandler<CreateBoardRequest, Board>
+    public class CreateBoardHandler : RequestHandler<CreateBoardRequest, string>
     {
         private readonly IBoardRepository _boardRepository;
 
@@ -14,11 +14,11 @@ namespace TicTacToe.WebApi.Handlers
             _boardRepository = boardRepository;
         }
 
-        protected override Board HandleCore(CreateBoardRequest request)
+        protected override string HandleCore(CreateBoardRequest request)
         {
             var board = new Board();
             _boardRepository.Set(board);
-            return board;
+            return board.Print();
         }
     }
 }
