@@ -13,6 +13,8 @@ namespace TicTacToe.WebApi.Tests
     public class GameControllerTest
     {
         private IWebHostBuilder _webHostBuilder;
+        private TestServer _testServer;
+        private HttpClient _httpClient;
 
         [SetUp]
         public void Setup()
@@ -20,56 +22,53 @@ namespace TicTacToe.WebApi.Tests
             _webHostBuilder = new WebHostBuilder()
                 .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>();
+            _testServer = new TestServer(_webHostBuilder);
+            _httpClient = _testServer.CreateClient();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _testServer.Dispose();
         }
 
         [Test]
         public async Task NewGame_ReturnsEmptyBoard()
         {
-            using (var testServer = new TestServer(_webHostBuilder))
-            {
-                var client = testServer.CreateClient();
-                var response = await client.PostAsync("game/new", new StringContent(""));
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var expectedJson = "{[_,_,_,_,_,_,_,_,_]}";
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(responseContent, Is.EqualTo(expectedJson));
-            }
+            const string expectedJson = "{[_,_,_,_,_,_,_,_,_]}";
+            var response = await PostNewGameRequest();
+            await AssertResponse(response, expectedJson);
         }
 
         [Test]
         public async Task Move_WhenOneMoveWasMade_ReturnsBoardWith_o()
         {
-            using (var testServer = new TestServer(_webHostBuilder))
-            {
-                var client = testServer.CreateClient();
-                await client.PostAsync("game/new", new StringContent(""));
-                var response = await client.PostAsync("game/move/0", null );
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                var expectedJson = "{[o,_,_,_,_,_,_,_,_]}";
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(responseContent, Is.EqualTo(expectedJson));
-            }
+            const string expectedJson = "{[o,_,_,_,_,_,_,_,_]}";
+            await PostNewGameRequest();
+            var response = await PostMoveRequest(0);
+            await AssertResponse(response, expectedJson);
         }
 
         [Test]
         public async Task Move_WhenTwoMoveWereMade_ReturnsBoardWith_ox()
         {
-            using (var testServer = new TestServer(_webHostBuilder))
-            {
-                var client = testServer.CreateClient();
-                await client.PostAsync("game/new", null);
-                await client.PostAsync("game/move/0", null);
-                var response = await client.PostAsync("game/move/3", null);
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                var expectedJson = "{[o,_,_,x,_,_,_,_,_]}";
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(responseContent, Is.EqualTo(expectedJson));
-            }
+            const string expectedJson = "{[o,_,_,x,_,_,_,_,_]}";
+            await PostNewGameRequest();
+            await PostMoveRequest(0);
+            var response = await PostMoveRequest(3);
+            await AssertResponse(response, expectedJson);
         }
+
+        private static async Task AssertResponse(HttpResponseMessage response, string expectedJson)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(responseContent, Is.EqualTo(expectedJson));
+        }
+
+        private Task<HttpResponseMessage> PostMoveRequest(int cellId) => _httpClient.PostAsync($"game/move/{cellId}", null);
+
+        private Task<HttpResponseMessage> PostNewGameRequest() => _httpClient.PostAsync("game/new", null);
     }
 }
