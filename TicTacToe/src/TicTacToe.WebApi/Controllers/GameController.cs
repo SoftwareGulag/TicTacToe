@@ -21,8 +21,8 @@ namespace TicTacToe.WebApi.Controllers
             return Ok(board);
         }
 
-        [HttpPost, Route("game/move")]
-        public async Task<IActionResult> MakeMove([FromBody] int cellId)
+        [HttpPost, Route("game/move/{cellId}")]
+        public async Task<IActionResult> MakeMove(int cellId)
         {
             var board = await _mediator.Send(new MakeMoveRequest(cellId));
             return Ok(board);

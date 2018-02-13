@@ -44,10 +44,28 @@ namespace TicTacToe.WebApi.Tests
             {
                 var client = testServer.CreateClient();
                 await client.PostAsync("game/new", new StringContent(""));
-                var response = await client.PostAsync("game/move", new StringContent("{cellId: 0}", Encoding.UTF8, "application/json"));
+                var response = await client.PostAsync("game/move/0", null );
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 var expectedJson = "{[o,_,_,_,_,_,_,_,_]}";
+
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(responseContent, Is.EqualTo(expectedJson));
+            }
+        }
+
+        [Test]
+        public async Task Move_WhenTwoMoveWereMade_ReturnsBoardWith_ox()
+        {
+            using (var testServer = new TestServer(_webHostBuilder))
+            {
+                var client = testServer.CreateClient();
+                await client.PostAsync("game/new", null);
+                await client.PostAsync("game/move/0", null);
+                var response = await client.PostAsync("game/move/3", null);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                var expectedJson = "{[o,_,_,x,_,_,_,_,_]}";
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(responseContent, Is.EqualTo(expectedJson));
