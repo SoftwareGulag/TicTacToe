@@ -30,6 +30,13 @@ namespace TicTacToe.WebApi.Tests
             Assert.That(() => board.MakeMove(0), Throws.InstanceOf<InvalidMoveException>());
         }
 
+        [TestCase(-1)]
+        [TestCase(10)]
+        public void MakeMove_GivenCellNumberOutsideOfRange_ThrowsOutsideOfBoardRangeException(int cellId)
+        {
+            Assert.That(() => new Board().MakeMove(cellId), Throws.InstanceOf<OutsideOfBoardRangeException>());
+        }
+
         [Test]
         public void MakeMove_GivenCellNumber1_ReturnsArrayWith_o_at_0()
         {

@@ -31,10 +31,8 @@ namespace TicTacToe.WebApi.Models
 
         public void MakeMove(int i)
         {
-            if (_cells[i] != CellState.Empty)
-            {
-                throw new InvalidMoveException();
-            }
+            if (i < 0 || i > 8 ) throw new OutsideOfBoardRangeException();
+            if (_cells[i] != CellState.Empty) throw new InvalidMoveException();
 
             _cells[i] = GetNextCellState();
         }

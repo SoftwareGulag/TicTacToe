@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TicTacToe.WebApi.Exceptions;
 using TicTacToe.WebApi.Requests;
 
 namespace TicTacToe.WebApi.Controllers
@@ -21,6 +25,7 @@ namespace TicTacToe.WebApi.Controllers
             return Ok(board);
         }
 
+        [InvalidMoveExceptionFilter]
         [HttpPost, Route("game/move/{cellId}")]
         public async Task<IActionResult> MakeMove(int cellId)
         {

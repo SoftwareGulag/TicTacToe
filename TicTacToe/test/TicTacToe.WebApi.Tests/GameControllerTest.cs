@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
@@ -47,6 +46,25 @@ namespace TicTacToe.WebApi.Tests
             await PostNewGameRequest();
             var response = await PostMoveRequest(0);
             await AssertResponse(response, expectedJson);
+        }
+
+        [Test]
+        public async Task Move_WhenSecondMoveIsTheSameAsFirst_ReturnsBadRequest()
+        {
+            await PostNewGameRequest();
+            await PostMoveRequest(0);
+            var response = await PostMoveRequest(0);
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+        }
+
+        [Test]
+        public async Task Move_WhenSecondCellIdIsOutsideOfBoardRange_ReturnsBadRequest()
+        {
+            await PostNewGameRequest();
+            var response = await PostMoveRequest(10);
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
         [Test]
