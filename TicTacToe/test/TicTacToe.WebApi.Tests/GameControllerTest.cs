@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using TicTacToe.WebApi.Models;
 
 namespace TicTacToe.WebApi.Tests
 {
@@ -34,18 +36,18 @@ namespace TicTacToe.WebApi.Tests
         [Test]
         public async Task NewGame_ReturnsEmptyBoard()
         {
-            const string expectedJson = "{[_,_,_,_,_,_,_,_,_]}";
+            var expectedGameState = new GameStateResponse("{[_,_,_,_,_,_,_,_,_]}");
             var response = await PostNewGameRequest();
-            await AssertResponse(response, expectedJson);
+            await AssertResponse(response, expectedGameState);
         }
 
         [Test]
         public async Task Move_WhenOneMoveWasMade_ReturnsBoardWith_o()
         {
-            const string expectedJson = "{[o,_,_,_,_,_,_,_,_]}";
+            var expectedGameState = new GameStateResponse("{[o,_,_,_,_,_,_,_,_]}");
             await PostNewGameRequest();
             var response = await PostMoveRequest(0);
-            await AssertResponse(response, expectedJson);
+            await AssertResponse(response, expectedGameState);
         }
 
         [Test]
@@ -70,15 +72,16 @@ namespace TicTacToe.WebApi.Tests
         [Test]
         public async Task Move_WhenTwoMoveWereMade_ReturnsBoardWith_ox()
         {
-            const string expectedJson = "{[o,_,_,x,_,_,_,_,_]}";
+            var expectedGameState = new GameStateResponse("{[o,_,_,x,_,_,_,_,_]}");
             await PostNewGameRequest();
             await PostMoveRequest(0);
             var response = await PostMoveRequest(3);
-            await AssertResponse(response, expectedJson);
+            await AssertResponse(response, expectedGameState);
         }
 
-        private static async Task AssertResponse(HttpResponseMessage response, string expectedJson)
+        private static async Task AssertResponse(HttpResponseMessage response, GameStateResponse expectedGameState)
         {
+            var expectedJson = JsonConvert.SerializeObject(expectedGameState);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));

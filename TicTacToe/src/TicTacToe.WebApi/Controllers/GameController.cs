@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using TicTacToe.WebApi.Exceptions;
 using TicTacToe.WebApi.Requests;
 
@@ -21,16 +22,16 @@ namespace TicTacToe.WebApi.Controllers
         [HttpPost, Route("game/new")]
         public async Task<IActionResult> CreateNewGame()
         {
-            var board = await _mediator.Send(new CreateBoardRequest());
-            return Ok(board);
+            var gameStateResponse = await _mediator.Send(new CreateBoardRequest());
+            return Ok(gameStateResponse);
         }
 
         [InvalidMoveExceptionFilter]
         [HttpPost, Route("game/move/{cellId}")]
         public async Task<IActionResult> MakeMove(int cellId)
         {
-            var board = await _mediator.Send(new MakeMoveRequest(cellId));
-            return Ok(board);
+            var gameStateResponse = await _mediator.Send(new MakeMoveRequest(cellId));
+            return Ok(gameStateResponse);
         }
     }
 }

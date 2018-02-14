@@ -1,8 +1,9 @@
 ﻿using MediatR;
+using TicTacToe.WebApi.Models;
 
 namespace TicTacToe.WebApi.Requests
 {
-    public class CreateBoardRequest : IRequest<string>
+    public class CreateBoardRequest : IRequest<GameStateResponse>
     {
         
     }
