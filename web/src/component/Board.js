@@ -4,10 +4,13 @@ import {connect} from '@cerebral/react';
 import Cell from './Cell';
 
 function Board (props) {
-    return (<div><Cell state={props.board}/></div>);
+    const { board } = props;
+    const cells = board.map((cellState, index) => {
+        return (<Cell key={index} cellId={index} state={cellState}/>);
+    });
+    return (<div>{cells}</div>);
 }
 
 export default connect({
     board: state`app.board`
-},
-Board);
+}, Board);
