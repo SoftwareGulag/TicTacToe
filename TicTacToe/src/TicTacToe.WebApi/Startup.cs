@@ -23,6 +23,7 @@ namespace TicTacToe.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseMvc();
         }
 
