@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using TicTacToe.WebApi.Boundary;
 using TicTacToe.WebApi.Models;
 
 namespace TicTacToe.WebApi.Tests
@@ -45,7 +46,7 @@ namespace TicTacToe.WebApi.Tests
         [Test]
         public async Task Move_WhenOneMoveWasMade_ReturnsBoardWith_o()
         {
-            var expectedGameState = new GameStateResponse("{[o,_,_,_,_,_,_,_,_]}");
+            var expectedGameState = new GameStateResponse("{[o,_,_,_,_,_,_,_,_]}", GameOutcome.OpenOutcome);
             await PostNewGameRequest();
             var response = await PostMoveRequest(0);
             await AssertResponse(response, expectedGameState);
@@ -73,7 +74,7 @@ namespace TicTacToe.WebApi.Tests
         [Test]
         public async Task Move_WhenTwoMoveWereMade_ReturnsBoardWith_ox()
         {
-            var expectedGameState = new GameStateResponse("{[o,_,_,x,_,_,_,_,_]}");
+            var expectedGameState = new GameStateResponse("{[o,_,_,x,_,_,_,_,_]}", GameOutcome.OpenOutcome);
             await PostNewGameRequest();
             await PostMoveRequest(0);
             var response = await PostMoveRequest(3);
@@ -81,7 +82,7 @@ namespace TicTacToe.WebApi.Tests
         }
 
         [Test]
-        public async Task Move_When_o_HasWon_ReturnsGameStateWithHasOWonTrue()
+        public async Task Move_When_o_HasWon_ReturnsGameStateWithOHasWonTrue()
         {
             var expectedGameState = new GameStateResponse("{[o,o,o,x,_,x,_,_,_]}", GameOutcome.OHasWon);
             await PostNewGameRequest();
@@ -90,6 +91,23 @@ namespace TicTacToe.WebApi.Tests
             await PostMoveRequest(1);
             await PostMoveRequest(5);
             var response = await PostMoveRequest(2);
+            await AssertResponse(response, expectedGameState);
+        }
+
+        [Test]
+        public async Task Move_WhenGameEndedWithDraw_ReturnsGameStateWithDrwaOutcome()
+        {
+            var expectedGameState = new GameStateResponse("{[o,x,o,o,x,x,x,o,o]}", GameOutcome.Draw);
+            await PostNewGameRequest();
+            await PostMoveRequest(0);
+            await PostMoveRequest(1);
+            await PostMoveRequest(2);
+            await PostMoveRequest(4);
+            await PostMoveRequest(3);
+            await PostMoveRequest(5);
+            await PostMoveRequest(7);
+            await PostMoveRequest(6);
+            var response = await PostMoveRequest(8);
             await AssertResponse(response, expectedGameState);
         }
 

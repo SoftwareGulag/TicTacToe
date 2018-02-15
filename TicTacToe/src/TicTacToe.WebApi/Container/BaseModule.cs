@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Autofac;
 using MediatR;
+using TicTacToe.WebApi.Boundary;
 using TicTacToe.WebApi.Handlers;
 using TicTacToe.WebApi.Models;
 using TicTacToe.WebApi.Repositories;
