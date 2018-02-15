@@ -78,8 +78,6 @@ namespace TicTacToe.WebApi.Services
 
         private static IEnumerable<CellState> TakeRow(IEnumerable<CellState> cells, int rowNumber) => cells.Skip(rowNumber).Take(3);
 
-        private static bool EvaluateRow(IEnumerable<CellState> row, CellState cellState) => row.All(cs => cs == cellState);
-
         private static bool EvaluateDiagonalRowVictoryCondition(CellState[] cells, CellState cellState)
         {
             var rowEvaluationResults = new List<bool>();
@@ -98,5 +96,7 @@ namespace TicTacToe.WebApi.Services
 
             return rowEvaluationResults.Any(evaluationResult => evaluationResult);
         }
+
+        private static bool EvaluateRow(IEnumerable<CellState> row, CellState cellState) => row.All(cs => cs == cellState);
     }
 }
