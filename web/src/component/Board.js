@@ -1,9 +1,10 @@
 import React from 'react';
 import {state} from 'cerebral/tags';
 import {connect} from '@cerebral/react';
+import Cell from './Cell';
 
 function Board (props) {
-    return (<div>{props.board}</div>);
+    return (<div><Cell state={props.board}/></div>);
 }
 
 export default connect({
