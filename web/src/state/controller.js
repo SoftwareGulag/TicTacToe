@@ -1,5 +1,6 @@
 import { Controller } from "cerebral";
 import Devtools from "cerebral/devtools";
+import Router from "@cerebral/router";
 import app from "./app";
 
 export default Controller(
