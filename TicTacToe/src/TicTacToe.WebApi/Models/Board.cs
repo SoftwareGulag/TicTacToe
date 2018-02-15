@@ -14,9 +14,9 @@ namespace TicTacToe.WebApi.Models
             Cells = new CellState[9];
             _cellStateMap = new Dictionary<CellState, string>
             {
-                {CellState.O, "o"},
-                {CellState.X, "x"},
-                {CellState.Empty, "_"}
+                {CellState.O, "\"o\""},
+                {CellState.X, "\"x\""},
+                {CellState.Empty, "\"_\""}
             };
         }
 
@@ -24,7 +24,7 @@ namespace TicTacToe.WebApi.Models
         {
             var mappedCells = Cells.Select(MapToString);
 
-            return $"{{[{string.Join(",", mappedCells)}]}}";
+            return $"{{\"state\": [{string.Join(",", mappedCells)}]}}";
         }
 
         private string MapToString(CellState cellState) => _cellStateMap[cellState];
