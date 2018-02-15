@@ -66,29 +66,37 @@ namespace TicTacToe.WebApi.Services
         private static bool EvaluateRowVictoryCondition(CellState[] cells, CellState cellState)
         {
             var rowEvaluationResults = new List<bool>();
-            for (var i = 0; i < 7; i += 3)
+            for (var rowNumber = 0; rowNumber < 7; rowNumber += 3)
             {
-                var row = cells.Skip(i).Take(3);
-                var result = row.All(cs => cs == cellState);
+                var row = TakeRow(cells, rowNumber);
+                var result = EvaluateRow(row, cellState);
                 rowEvaluationResults.Add(result);
             }
 
             return rowEvaluationResults.Any(evaluationResult => evaluationResult);
         }
 
+        private static IEnumerable<CellState> TakeRow(IEnumerable<CellState> cells, int rowNumber) => cells.Skip(rowNumber).Take(3);
+
+        private static bool EvaluateRow(IEnumerable<CellState> row, CellState cellState) => row.All(cs => cs == cellState);
+
         private static bool EvaluateDiagonalRowVictoryCondition(CellState[] cells, CellState cellState)
         {
-            if (cells[0] == cellState && cells[4] == cellState && cells[8] == cellState)
+            var rowEvaluationResults = new List<bool>();
+            
+            for(int startIndex = 0, offset = 4 ; offset > 1; offset = offset / 2, startIndex +=2)
             {
-                return true;
+                var diagonal = new CellState[3];
+
+                for (var j = 0; j < 3; j++)
+                {
+                    diagonal[j] = cells[startIndex + j * offset];
+                }
+                var result = EvaluateRow(diagonal, cellState);
+                rowEvaluationResults.Add(result);
             }
 
-            if (cells[2] == cellState && cells[4] == cellState && cells[6] == cellState)
-            {
-                return true;
-            }
-
-            return false;
+            return rowEvaluationResults.Any(evaluationResult => evaluationResult);
         }
     }
 }

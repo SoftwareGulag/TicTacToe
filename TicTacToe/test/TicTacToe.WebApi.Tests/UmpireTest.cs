@@ -97,6 +97,15 @@ namespace TicTacToe.WebApi.Tests
             Assert.That(result, Is.EqualTo(GameOutcome.XHasWon));
         }
 
+        [Test]
+        public void DecideOutcome_WhenPlayer_o_MadMove_4_ReturnsOpenOutcome()
+        {
+            var umpire = new Umpire();
+            var board = SimulateGame(new[] { 4});
+            var result = umpire.DecideOutcome(board);
+            Assert.That(result, Is.EqualTo(GameOutcome.OpenOutcome));
+        }
+
         private static Board SimulateGame(IEnumerable<int> listOfMoves)
         {
             var board = new Board();
