@@ -33,6 +33,16 @@ namespace TicTacToe.WebApi.Services
                 return GameOutcome.XHasWon;
             }
 
+            if (EvaluateDiagonalRowVictoryCondition(board.Cells, CellState.O))
+            {
+                return GameOutcome.OHasWon;
+            }
+
+            if (EvaluateDiagonalRowVictoryCondition(board.Cells, CellState.X))
+            {
+                return GameOutcome.XHasWon;
+            }
+
             return GameOutcome.OpenOutcome;
         }
 
@@ -64,6 +74,21 @@ namespace TicTacToe.WebApi.Services
             }
 
             return rowEvaluationResults.Any(evaluationResult => evaluationResult);
+        }
+
+        private static bool EvaluateDiagonalRowVictoryCondition(CellState[] cells, CellState cellState)
+        {
+            if (cells[0] == cellState && cells[4] == cellState && cells[8] == cellState)
+            {
+                return true;
+            }
+
+            if (cells[2] == cellState && cells[4] == cellState && cells[6] == cellState)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

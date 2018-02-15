@@ -79,6 +79,24 @@ namespace TicTacToe.WebApi.Tests
             Assert.That(result, Is.EqualTo(GameOutcome.XHasWon));
         }
 
+        [Test]
+        public void DecideOutcome_WhenPlayer_o_FilledDiagonalRow_ReturnsOHasWon()
+        {
+            var umpire = new Umpire();
+            var board = SimulateGame(new[] { 0, 1, 4, 2, 8 });
+            var result = umpire.DecideOutcome(board);
+            Assert.That(result, Is.EqualTo(GameOutcome.OHasWon));
+        }
+
+        [Test]
+        public void DecideOutcome_WhenPlayer_x_FilledDiagonalRow_ReturnsXHasWon()
+        {
+            var umpire = new Umpire();
+            var board = SimulateGame(new[] { 0, 2, 1, 4, 8, 6 });
+            var result = umpire.DecideOutcome(board);
+            Assert.That(result, Is.EqualTo(GameOutcome.XHasWon));
+        }
+
         private static Board SimulateGame(IEnumerable<int> listOfMoves)
         {
             var board = new Board();
