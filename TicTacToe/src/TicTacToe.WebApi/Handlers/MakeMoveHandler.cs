@@ -2,15 +2,18 @@
 using TicTacToe.WebApi.Models;
 using TicTacToe.WebApi.Repositories.Abstract;
 using TicTacToe.WebApi.Requests;
+using TicTacToe.WebApi.Services;
 
 namespace TicTacToe.WebApi.Handlers
 {
     public class MakeMoveHandler : RequestHandler<MakeMoveRequest, GameStateResponse>
     {
+        private readonly IUmpire _umpire;
         private readonly IBoardRepository _boardRepository;
 
-        public MakeMoveHandler(IBoardRepository boardRepository)
+        public MakeMoveHandler(IUmpire umpire, IBoardRepository boardRepository)
         {
+            _umpire = umpire;
             _boardRepository = boardRepository;
         }
 
@@ -18,8 +21,9 @@ namespace TicTacToe.WebApi.Handlers
         {
             var board = _boardRepository.Get();
             board.MakeMove(message.CellId);
+            var outcome = _umpire.DecideOutcome(board);
 
-            return new GameStateResponse(board.Print());
+            return new GameStateResponse(board.Print(), outcome);
         }
     }
 }

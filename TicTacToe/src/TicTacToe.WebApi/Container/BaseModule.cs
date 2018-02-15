@@ -6,6 +6,7 @@ using TicTacToe.WebApi.Models;
 using TicTacToe.WebApi.Repositories;
 using TicTacToe.WebApi.Repositories.Abstract;
 using TicTacToe.WebApi.Requests;
+using TicTacToe.WebApi.Services;
 
 namespace TicTacToe.WebApi.Container
 {
@@ -36,6 +37,8 @@ namespace TicTacToe.WebApi.Container
 
             builder.RegisterType<CreateBoardHandler>().As<IRequestHandler<CreateBoardRequest, GameStateResponse>>();
             builder.RegisterType<MakeMoveHandler>().As<IRequestHandler<MakeMoveRequest, GameStateResponse>>();
+
+            builder.RegisterType<Umpire>().As<IUmpire>().SingleInstance();
 
             builder.RegisterType<BoardRepository>().As<IBoardRepository>().SingleInstance();
         }

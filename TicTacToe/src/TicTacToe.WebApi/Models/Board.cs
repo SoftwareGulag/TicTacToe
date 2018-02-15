@@ -6,12 +6,12 @@ namespace TicTacToe.WebApi.Models
 {
     public class Board
     {
-        private readonly CellState[] _cells;
+        public CellState[] Cells { get; }
         private readonly Dictionary<CellState, string> _cellStateMap;
 
         public Board()
         {
-            _cells = new CellState[9];
+            Cells = new CellState[9];
             _cellStateMap = new Dictionary<CellState, string>
             {
                 {CellState.O, "o"},
@@ -22,7 +22,7 @@ namespace TicTacToe.WebApi.Models
 
         public string Print()
         {
-            var mappedCells = _cells.Select(MapToString);
+            var mappedCells = Cells.Select(MapToString);
 
             return $"{{[{string.Join(",", mappedCells)}]}}";
         }
@@ -32,13 +32,13 @@ namespace TicTacToe.WebApi.Models
         public void MakeMove(int i)
         {
             if (i < 0 || i > 8 ) throw new OutsideOfBoardRangeException();
-            if (_cells[i] != CellState.Empty) throw new InvalidMoveException();
+            if (Cells[i] != CellState.Empty) throw new InvalidMoveException();
 
-            _cells[i] = GetNextCellState();
+            Cells[i] = GetNextCellState();
         }
 
         private CellState GetNextCellState() => IsTicTheNextMove() ? CellState.O : CellState.X;
 
-        private bool IsTicTheNextMove() => _cells.Count(c => c != CellState.Empty) % 2 == 0;
+        private bool IsTicTheNextMove() => Cells.Count(c => c != CellState.Empty) % 2 == 0;
     }
 }

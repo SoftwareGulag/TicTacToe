@@ -29,7 +29,7 @@ namespace TicTacToe.WebApi.Controllers
         [InvalidMoveExceptionFilter]
         [HttpPost, Route("game/move/{cellId}")]
         public async Task<IActionResult> MakeMove(int cellId)
-        {
+        {   
             var gameStateResponse = await _mediator.Send(new MakeMoveRequest(cellId));
             return Ok(gameStateResponse);
         }

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
@@ -76,6 +77,19 @@ namespace TicTacToe.WebApi.Tests
             await PostNewGameRequest();
             await PostMoveRequest(0);
             var response = await PostMoveRequest(3);
+            await AssertResponse(response, expectedGameState);
+        }
+
+        [Test]
+        public async Task Move_When_o_HasWon_ReturnsGameStateWithHasOWonTrue()
+        {
+            var expectedGameState = new GameStateResponse("{[o,o,o,x,_,x,_,_,_]}", GameOutcome.OHasWon);
+            await PostNewGameRequest();
+            await PostMoveRequest(0);
+            await PostMoveRequest(3);
+            await PostMoveRequest(1);
+            await PostMoveRequest(5);
+            var response = await PostMoveRequest(2);
             await AssertResponse(response, expectedGameState);
         }
 

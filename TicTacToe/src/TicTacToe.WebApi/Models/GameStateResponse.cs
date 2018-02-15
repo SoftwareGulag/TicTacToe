@@ -15,11 +15,11 @@ namespace TicTacToe.WebApi.Models
 
         public GameStateResponse(string board) => Board = board;
 
-        public GameStateResponse(string board, bool hasOWonGame, bool hasXWonGame)
+        public GameStateResponse(string board, GameOutcome gameOutcome)
         {
             Board = board;
-            HasOWonGame = hasOWonGame;
-            HasXWonGame = hasXWonGame;
+            HasOWonGame = gameOutcome == GameOutcome.OHasWon;
+            HasXWonGame = gameOutcome == GameOutcome.XHasWon;
         }
     }
 }
