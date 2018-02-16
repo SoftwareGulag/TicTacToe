@@ -48,6 +48,12 @@ function MapMakeMoveRequestResponseToState({props, state}) {
   if (makeMoveRequestResponse.hasXWonGame) {
     state.set('app.gameState', GAME_STATE.XHasWon);
   }
+  if (makeMoveRequestResponse.draw) {
+    state.set('app.gameState', GAME_STATE.Draw);
+  }
+  if (makeMoveRequestResponse.openOutcome) {
+    state.set('app.gameState', GAME_STATE.InProgress);
+  }
 }
 
 export default Module({
