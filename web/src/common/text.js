@@ -1,0 +1,1 @@
+export const NEW_GAME_BUTTON = 'Start New Game';

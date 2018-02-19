@@ -17,6 +17,8 @@
     "@cerebral/react": "^3.1.1",
     "@cerebral/router": "^3.1.1",
     "cerebral": "^4.1.1",
+    "lodash": "^4.17.5",
+    "material-ui": "^0.20.0",
     "superagent": "^3.8.2"
   }
 }

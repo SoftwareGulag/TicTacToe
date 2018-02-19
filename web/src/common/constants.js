@@ -6,3 +6,9 @@ export const GAME_STATE = {
     XHasWon: "XHasWon",
     Draw: "Draw"
 };
+
+export const CELL_STATE = {
+    Empty: "_",
+    O: "o",
+    X: "x"
+}
