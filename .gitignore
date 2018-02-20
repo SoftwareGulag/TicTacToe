@@ -162,20 +162,20 @@ $RECYCLE.BIN/
 # ===================================================
 
 # NuGet Packages Directory
-packages/
+RiseOfTheAspNetCore/packages/
 
 # Generated documentation folder
-docs/output/
+RiseOfTheAspNetCore/docs/output/
 
 # Temp folder used for publishing docs
-temp/
+RiseOfTheAspNetCore/temp/
 
 # Test results produced by build
-TestResults.xml
+RiseOfTheAspNetCore/TestResults.xml
 
 # Nuget outputs
 nuget/*.nupkg
-.paket/paket.exe
+RiseOfTheAspNetCore/.paket/paket.exe
 output
 paket-files
 release.cmd
@@ -186,3 +186,5 @@ docs
 FSharp.Formatting.svclog
 _NCrunch*
 Sample/node_modules
+
+RiseOfTheAspNetCore/\.paket/
