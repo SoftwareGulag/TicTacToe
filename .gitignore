@@ -175,7 +175,6 @@ RiseOfTheAspNetCore/TestResults.xml
 
 # Nuget outputs
 nuget/*.nupkg
-RiseOfTheAspNetCore/.paket/paket.exe
 output
 paket-files
 release.cmd
@@ -188,3 +187,5 @@ _NCrunch*
 Sample/node_modules
 
 RiseOfTheAspNetCore/\.paket/
+
+\.vscode/
