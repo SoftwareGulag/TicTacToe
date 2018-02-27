@@ -186,6 +186,4 @@ FSharp.Formatting.svclog
 _NCrunch*
 Sample/node_modules
 
-RiseOfTheAspNetCore/\.paket/
-
 \.vscode/
